@@ -1,0 +1,9 @@
+
+datasource db {
+	provider = "sqlserver"
+	url = env("DATABASE")
+}
+
+generator client {
+	provider = "prisma-client-js"
+}

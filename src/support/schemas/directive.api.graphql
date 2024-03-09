@@ -1,0 +1,2 @@
+
+directive @authorized on FIELD | FIELD_DEFINITION

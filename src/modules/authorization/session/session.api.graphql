@@ -1,0 +1,16 @@
+
+type Session {
+	sessionId:		Int!
+	authorization:	String!
+}
+
+
+input ISignInArgs {
+	userName:	String!
+	password:	String!
+}
+
+type Mutation {
+	signIn(data: ISignInArgs!): Session!
+	signOut(sessionId: Int!): Int! @authorized
+}

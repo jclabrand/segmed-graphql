@@ -1,0 +1,8 @@
+
+type FileInfo {
+	name: String!
+	md5: String!
+	size: Int!
+	thumbnail: String!
+	type: String!
+}

@@ -1,0 +1,12 @@
+
+model Session {
+	id			Int		@id @default(autoincrement())
+	publicKey	String	@db.VarChar(Max)
+	privateKey	String	@db.VarChar(Max)
+
+	status		Int		@default(1)
+
+	userName	String
+
+	user		User	@relation(fields: [userName], references: [userName])
+}

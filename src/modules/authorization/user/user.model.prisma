@@ -1,0 +1,54 @@
+
+model User {
+	id			Int		@id @default(autoincrement())
+	userName	String	@unique
+	displayName	String?
+	email		String?
+	directory	String	@default("LOCAL") // LOCAL, AD,
+
+	status		Int		@default(1)
+
+	groups		UserGroup[]
+	passwords	UserPassword[]
+}
+
+
+model UserGroup {
+	id		Int		@unique @default(autoincrement())
+	status	Int		@default(1)
+
+	userId	Int
+	groupId	Int
+
+	user	User	@relation(fields: [userId], references: [id])
+	group	Group	@relation(fields: [groupId], references: [id])
+
+	roles	UserGroupRole[]
+
+	@@id([ userId, groupId ])
+}
+
+model UserGroupRole {
+	id			Int		@unique @default(autoincrement())
+	status		Int		@default(1)
+
+	userGroupId	Int
+	roleId		Int
+
+	userGroup	UserGroup	@relation(fields: [userGroupId], references: [id])
+	role		Role		@relation(fields: [roleId], references: [id])
+
+	@@id([ userGroupId, roleId ])
+}
+
+model UserPassword {
+	id			Int		@unique @default(autoincrement())
+	encrypted	String
+	status		Int		@default(1)
+
+	userName	String
+
+	user		User	@relation(fields: [userName], references: [userName])
+
+	@@id([ userName, encrypted ])
+}

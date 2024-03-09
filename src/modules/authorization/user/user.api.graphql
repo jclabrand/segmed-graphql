@@ -1,0 +1,22 @@
+
+type User {
+	id:				Int!
+	userName:		String!
+	displayName:	String
+	email:			String
+	
+	status:			Int!
+}
+
+
+type Query {
+	users: [User!]! @authorized
+	currentUser(sessionId: Int!): User! @authorized
+}
+
+type Subscription {
+	userCreated: User!
+	userUpdated: User!
+	userDeleted: User!
+	userUpserted: User!
+}
