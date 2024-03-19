@@ -2,7 +2,7 @@
 /node_modules
 /dist
 
-package-look.json
+package-lock.json
 pnpm-lock.yaml
 
 .env
