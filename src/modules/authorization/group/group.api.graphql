@@ -8,8 +8,17 @@ type Group {
 }
 
 
+input IGroupCreateArgs {
+	name:			String!
+	description:	String
+}
+
 type Query {
 	groups: [Group!]! @authorized
+}
+
+type Mutation {
+	createGroup(data: IGroupCreateArgs!): Group! @authorized
 }
 
 type Subscription {

@@ -2,7 +2,7 @@
 import { Group } from '@prisma/client'
 
 import { Resolver } from '../../../support/classes'
-import { IContext } from '../../../support/types'
+import { IContext, IGroupCreateArgs } from '../../../support/types'
 import { Status, SubscriptionEvent } from '../../../support/constants'
 
 
@@ -20,6 +20,20 @@ export class GroupResolver extends Resolver {
 		})
 
 		return groups
+	}
+
+	async create(_, { data }: { data: IGroupCreateArgs }, { db, pubsub }: IContext ): Promise<Group> {
+		const { CREATED, UPSERTED } = SubscriptionEvent.Group
+		const record = await db.group.create({
+			data
+		})
+
+		super.publish({
+			pubsub,
+			events: [CREATED, UPSERTED],
+			dataset: [{ groupCreated: record }, { groupUpserted: record }]
+		})
+		return record
 	}
 
 }

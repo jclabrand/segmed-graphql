@@ -69,6 +69,8 @@ export class GraphqlResolver {
 			Mutation: {
 				signIn: session.signIn,
 				signOut: session.signOut,
+
+				createGroup: group.create,
 			},
 			Subscription: {
 				userCreated: user.created({ pubsub }),
