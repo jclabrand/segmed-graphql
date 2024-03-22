@@ -8,7 +8,7 @@ import { PubSub } from 'graphql-subscriptions'
 
 import { IContext } from '../support/types'
 
-import { SessionResolver, UserResolver } from '../modules/authorization'
+import { SessionResolver, UserResolver, GroupResolver } from '../modules/authorization'
 
 
 export class GraphqlResolver {
@@ -51,6 +51,7 @@ export class GraphqlResolver {
 		const pubsub = this.pubsub
 		const user = new UserResolver()
 			, session = new SessionResolver()
+			, group = new GroupResolver()
 
 		return mergeResolvers([{
 			DateTime: new GraphQLScalarType({
@@ -62,6 +63,8 @@ export class GraphqlResolver {
 			Query: {
 				users: user.index,
 				currentUser: user.current,
+
+				groups: group.index
 			},
 			Mutation: {
 				signIn: session.signIn,
@@ -70,7 +73,12 @@ export class GraphqlResolver {
 			Subscription: {
 				userCreated: user.created({ pubsub }),
 				userUpdated: user.updated({ pubsub }),
-				userUpserted: user.upserted({ pubsub })
+				userUpserted: user.upserted({ pubsub }),
+
+				groupCreated: group.created({ pubsub }),
+				groupUpdated: group.updated({ pubsub }),
+				groupDeleted: group.deleted({ pubsub }),
+				groupUpserted: group.upserted({ pubsub }),
 			}
 		}])
 	}
